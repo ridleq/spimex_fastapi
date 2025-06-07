@@ -3,7 +3,7 @@ from fastapi import APIRouter, Depends, Query
 from fastapi.responses import PlainTextResponse
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
-from typing import Optional
+from typing import AsyncGenerator, Optional
 
 from database import async_session_maker
 from models import TradeResult
@@ -12,7 +12,7 @@ from serializers import TradeResultSerializer
 router = APIRouter()
 
 
-async def get_session() -> AsyncSession:
+async def get_session() -> AsyncGenerator[AsyncSession, None]:
     async with async_session_maker() as session:
         yield session
 
